@@ -40,5 +40,19 @@
     "price": 29.99,
     "url": "https://images.unsplash.com/photo-1581655353564-df123a1eb820?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=800&q=80",
     "description": "Wear it with style!"
+  },
+  {
+    "id": 7,
+    "name": "Hat",
+    "price": 49.99,
+    "url": "https://images.unsplash.com/photo-1595642527925-4d41cb781653?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=800&q=80",
+    "description": "Wear it with style!"
+  },
+  {
+    "id": 8,
+    "name": "Coat",
+    "price": 229.99,
+    "url": "https://images.unsplash.com/photo-1539533113208-f6df8cc8b543?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=800&q=80",
+    "description": "Wear it with style!"
   }
 ]
