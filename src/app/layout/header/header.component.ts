@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-header',
@@ -10,5 +11,14 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
+  totalCartItems: number = 0;
+
+  constructor(private cartService: CartService) {}
+
+  ngOnInit() {
+    this.cartService.totalCartItems$.subscribe((totalCartItems:number) => {
+      this.totalCartItems = totalCartItems;
+    });
+  }
 
 }
