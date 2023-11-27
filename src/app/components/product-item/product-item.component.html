@@ -1,6 +1,8 @@
 <div class="col mb-5">
     <div class="card h-100">
-        <img class="card-img-top" src="{{ product.url }}">
+        <a routerLink="products/{{ product.id }}">
+            <img class="card-img-top" src="{{ product.url }}"/>
+        </a>
         <div class="card-body p-4">
             <div class="text-center">
                 <h5 class="fw-bolder">{{ product.name }}</h5>
@@ -22,7 +24,7 @@
                     <option>10</option>
                 </select>
             </div>
-            <div class="text-center form-group"><a class="btn btn-outline-dark mt-auto" href="#">Add to Cart</a></div>
+            <div class="text-center form-group"><a class="btn btn-outline-dark mt-auto" (click)="addToCart()">Add to Cart</a></div>
         </div>
     </div>
 </div>
