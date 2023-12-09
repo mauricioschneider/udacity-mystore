@@ -27,6 +27,7 @@ export class ProductItemComponent {
 
   addToCart(productId: number): void {
     this.cartService.addProduct(productId, this.selectedQuantity);
+    this.selectedQuantity = 1;
   }
 
 }
