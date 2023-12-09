@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
+import { CartService } from '../../services/cart.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-product-item-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './product-item-detail.component.html',
   styleUrl: './product-item-detail.component.css'
 })
@@ -20,7 +22,9 @@ export class ProductItemDetailComponent {
     price: 0
   };
 
-  constructor(private route: ActivatedRoute, private productService: ProductService) { }
+  selectedQuantity: number = 1;
+
+  constructor(private route: ActivatedRoute, private productService: ProductService, private cartService: CartService) { }
 
   ngOnInit(): void {
     const id: string | null = this.route.snapshot.paramMap.get('id');
@@ -34,5 +38,10 @@ export class ProductItemDetailComponent {
         });
       }
     }
+  }
+
+  addToCart(productId: number): void {
+    this.cartService.addProduct(productId, this.selectedQuantity);
+    this.selectedQuantity = 1;
   }
 }

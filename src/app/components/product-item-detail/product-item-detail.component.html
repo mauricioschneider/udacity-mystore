@@ -9,9 +9,22 @@
       <span>${{ product.price }}</span>
     </div>
     <p class="lead">{{ product.description }}</p>
-    <div class="d-flex">
-      <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem">
-      <button class="btn btn-outline-dark flex-shrink-0" type="button">
+    <div class="col-auto">
+      <select class="form-select mb-3" [(ngModel)]="selectedQuantity">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+        <option>7</option>
+        <option>8</option>
+        <option>9</option>
+        <option>10</option>
+      </select>
+    </div>
+    <div class="col-auto">
+      <button class="btn btn-outline-dark flex-shrink-0" type="button" (click)="addToCart(product.id)">
         <i class="bi-cart-fill me-1"></i>
         Add to Cart
       </button>
