@@ -19,15 +19,16 @@ export class CartService {
     this.productService.getProductData(id).subscribe(product => {
       if (product) {
         const existingProductIndex = this.cart.findIndex(p => p.product.id === id);
+
         if (existingProductIndex !== -1) {
           this.cart[existingProductIndex].quantity += +quantity; 
         } else {
           this.cart.push({product: product, quantity: quantity});
         }
+
         const currentQuantity = this.totalCartItemsSubject.getValue();
         this.totalCartItemsSubject.next(currentQuantity + +quantity);
       }
     });
-    console.log(this.cart);
   }
 }
