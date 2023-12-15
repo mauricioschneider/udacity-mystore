@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CartItem } from '../models/cart-item';
 import { ProductService } from './product.service';
 import { Product } from '../models/product';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { ToastrService } from 'ngx-toastr';
 
@@ -10,49 +10,70 @@ import { ToastrService } from 'ngx-toastr';
   providedIn: 'root'
 })
 export class CartService {
-  cart: CartItem[] = [];
-  totalCartItemsSubject = new BehaviorSubject<number>(0);
+  private cartSubject = new BehaviorSubject<CartItem[]>([]);
+  public cart$: Observable<CartItem[]> = this.cartSubject.asObservable();
 
-  totalCartItems$ = this.totalCartItemsSubject.asObservable();
+  private totalCartItemsSubject = new BehaviorSubject<number>(0);
+  private totalAmountSubject = new BehaviorSubject<string>("0.00");
+
+  public totalCartItems$ = this.totalCartItemsSubject.asObservable();
+  public totalAmount$ = this.totalAmountSubject.asObservable();
 
   constructor(private productService: ProductService, private toastrService: ToastrService) { }
 
   addProduct(id: number, quantity: number) {
+    const cart = this.cartSubject.getValue();
     this.productService.getProductData(id).subscribe(product => {
       if (product) {
-        const existingProductIndex = this.cart.findIndex(p => p.product.id === id);
+        const existingProductIndex = cart.findIndex(p => p.product.id === id);
 
         if (existingProductIndex !== -1) {
-          this.cart[existingProductIndex].quantity += +quantity; 
+          cart[existingProductIndex].quantity += +quantity; 
         } else {
-          this.cart.push({product: product, quantity: quantity});
+          cart.push({product: product, quantity: quantity});
         }
 
         this.toastrService.success(`${product.name} added to cart`, 'Cart Updated');
 
         const currentQuantity = this.totalCartItemsSubject.getValue();
         this.totalCartItemsSubject.next(currentQuantity + +quantity);
+
+        this.totalAmountSubject.next(this.getTotalAmount());
+
+        this.cartSubject.next(cart);
       }
     });
   }
 
   removeProduct(id: number) {
-    const productIndex = this.cart.findIndex(p => p.product.id === id);
+    const cart = this.cartSubject.getValue();
+    const productIndex = cart.findIndex(p => p.product.id === id);
   
     if (productIndex !== -1) {
-      const productName = this.cart[productIndex].product.name;
+      const productName = cart[productIndex].product.name;
 
-      if (this.cart[productIndex].quantity > 1) {
-        this.cart[productIndex].quantity
+      if (cart[productIndex].quantity > 1) {
+        cart[productIndex].quantity--;
       } else {
-        this.cart.splice(productIndex, 1);
-        this.toastrService.info(`${productName} removed from cart`, 'Cart Updated');
+        cart.splice(productIndex, 1);
+        this.toastrService.warning(`${productName} removed from cart`, 'Cart Updated');
       }
   
       const currentQuantity = this.totalCartItemsSubject.getValue();
-      this.totalCartItemsSubject.next(currentQuantity - this.cart[productIndex].quantity);
-
+      this.totalCartItemsSubject.next(currentQuantity - 1);
+      this.cartSubject.next(cart);
+      this.totalAmountSubject.next(this.getTotalAmount());
     }
   }
-  
+
+  getTotalAmount():string {
+    let total: number = 0;
+
+    for (const item of this.cartSubject.getValue()) {
+      total += item.product.price * item.quantity;
+    }
+
+    return total.toFixed(2);
+  }
+
 }
