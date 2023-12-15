@@ -11,6 +11,7 @@ import { NgbConfig, NgbModule } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
+
 export class AppComponent {
   title = 'udacity-mystore';
 
