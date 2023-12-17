@@ -9,9 +9,9 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The appli
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Copyrighted material
+## References
 
-This project uses code excerpts from two Bootstrap template projects by Start Bootstrap LLC, which have been released under the MIT license.
+This project uses Bootstrap for styling. I used the following templates as samples on how to display the list of products, and a detailed product view.
 
 - Shop Item Template: https://startbootstrap.com/template/shop-item
 - Shop Homepage Template: https://startbootstrap.com/template/shop-homepage
