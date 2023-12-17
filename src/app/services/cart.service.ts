@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { CartItem } from '../models/cart-item';
 import { ProductService } from './product.service';
-import { Product } from '../models/product';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { ToastrService } from 'ngx-toastr';
+import { Customer } from '../models/customer';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +18,12 @@ export class CartService {
 
   public totalCartItems$ = this.totalCartItemsSubject.asObservable();
   public totalAmount$ = this.totalAmountSubject.asObservable();
+
+  private customer: Customer = {
+    firstname: '',
+    lastname: '',
+    address: ''
+  }
 
   constructor(private productService: ProductService, private toastrService: ToastrService) { }
 
@@ -33,7 +39,7 @@ export class CartService {
           cart.push({product: product, quantity: quantity});
         }
 
-        this.toastrService.success(`${product.name} added to cart`, 'Cart Updated');
+        this.toastrService.success(`${quantity} ${product.name} added to cart`, 'Cart Updated');
 
         const currentQuantity = this.totalCartItemsSubject.getValue();
         this.totalCartItemsSubject.next(currentQuantity + +quantity);
@@ -54,9 +60,10 @@ export class CartService {
 
       if (cart[productIndex].quantity > 1) {
         cart[productIndex].quantity--;
+        this.toastrService.warning(`One ${productName} removed from cart`, 'Cart Updated');
       } else {
         cart.splice(productIndex, 1);
-        this.toastrService.warning(`${productName} removed from cart`, 'Cart Updated');
+        this.toastrService.warning(`All ${productName} removed from cart`, 'Cart Updated');
       }
   
       const currentQuantity = this.totalCartItemsSubject.getValue();
@@ -74,6 +81,10 @@ export class CartService {
     }
 
     return total.toFixed(2);
+  }
+
+  setCustomerDetails(customer: Customer): void {
+    this.customer = customer;
   }
 
 }
