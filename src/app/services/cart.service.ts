@@ -14,9 +14,9 @@ export class CartService {
   public cart$: Observable<CartItem[]> = this.cartSubject.asObservable();
 
   private totalCartItemsSubject = new BehaviorSubject<number>(0);
-  private totalAmountSubject = new BehaviorSubject<string>("0.00");
-
   public totalCartItems$ = this.totalCartItemsSubject.asObservable();
+
+  private totalAmountSubject = new BehaviorSubject<string>("0.00");
   public totalAmount$ = this.totalAmountSubject.asObservable();
 
   private customer: Customer = {
@@ -85,6 +85,21 @@ export class CartService {
 
   setCustomerDetails(customer: Customer): void {
     this.customer = customer;
+  }
+
+  getCustomerDetails(): Customer {
+    return this.customer;
+  }
+
+  reset(): void {
+    this.totalCartItemsSubject.next(0);
+    this.cartSubject.next([]);
+    this.totalAmountSubject.next('0.00');
+    this.customer = {
+      firstname: '',
+      lastname: '',
+      address: ''
+    }
   }
 
 }
