@@ -1,9 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Product } from '../../models/product';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-product-item',
@@ -23,10 +22,13 @@ export class ProductItemComponent {
     price: 0
   };
 
-  constructor(private cartService: CartService) {}
+  @Output() addToCartEvent = new EventEmitter<{productId: number, quantity: number}>();
 
-  addToCart(productId: number): void {
-    this.cartService.addProduct(productId, this.selectedQuantity);
+
+  constructor() {}
+
+  addToCart(): void {
+    this.addToCartEvent.emit({productId: this.product.id, quantity: this.selectedQuantity});
     this.selectedQuantity = 1;
   }
 
