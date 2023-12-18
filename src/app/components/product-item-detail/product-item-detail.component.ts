@@ -40,8 +40,8 @@ export class ProductItemDetailComponent {
     }
   }
 
-  addToCart(productId: number): void {
-    this.cartService.addProduct(productId, this.selectedQuantity);
+  addToCart(): void {
+    this.cartService.addProduct(this.product.id, this.selectedQuantity);
     this.selectedQuantity = 1;
   }
 }
