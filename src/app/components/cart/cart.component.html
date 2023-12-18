@@ -44,7 +44,7 @@
       <div class="row g-3">
         <div class="col-sm-6">
           <label for="firstName" class="form-label">First name</label>
-          <input type="text" class="form-control" formControlName="firstname" [(ngModel)]="customer.firstname"
+          <input type="text" class="form-control" formControlName="firstname" (ngModelChange)="validateForm()" [(ngModel)]="customer.firstname"
             [ngClass]="{ 'is-invalid': (controls['firstname'].dirty || controls['firstname'].touched || form.submitted) && controls['firstname'].invalid }"
             placeholder="(minimum 2 characters)">
             <div *ngIf="orderForm.controls['firstname'].errors?.['required']" class="invalid-feedback">
@@ -57,7 +57,7 @@
 
         <div class="col-sm-6">
           <label for="lastName" class="form-label">Last name</label>
-          <input type="text" class="form-control" formControlName="lastname" [(ngModel)]="customer.lastname"
+          <input type="text" class="form-control" formControlName="lastname" (ngModelChange)="validateForm()" [(ngModel)]="customer.lastname"
             [ngClass]="{ 'is-invalid': (controls['lastname'].dirty || controls['lastname'].touched || form.submitted) && controls['lastname'].invalid }"
             placeholder="(minimum 2 characters)">
             <div *ngIf="orderForm.controls['lastname'].errors?.['required']" class="invalid-feedback">
@@ -70,7 +70,7 @@
 
         <div class="col-12">
           <label for="address" class="form-label">Address</label>
-          <input type="text" class="form-control" formControlName="address" [(ngModel)]="customer.address"
+          <input type="text" class="form-control" formControlName="address" (ngModelChange)="validateForm()" [(ngModel)]="customer.address"
             [ngClass]="{ 'is-invalid': (controls['address'].dirty || controls['address'].touched || form.submitted) && controls['address'].invalid }"
             placeholder="(minimum 6 characters)">
             <div *ngIf="orderForm.controls['address'].errors?.['required']" class="invalid-feedback">
@@ -90,7 +90,7 @@
       <div class="row gy-3">
         <div class="col-md-6 has-validation">
           <label for="cc-name" class="form-label">Name on card</label>
-          <input type="text" class="form-control" formControlName="name" [(ngModel)]="payment.name"
+          <input type="text" class="form-control" formControlName="name" (ngModelChange)="validateForm()" [(ngModel)]="payment.name"
             [ngClass]="{ 'is-invalid': (controls['name'].dirty || controls['name'].touched || form.submitted) && controls['name'].invalid }"
             placeholder="(minimum 5 characters)">
           <small class="text-body-secondary">Full name as displayed on card</small>
@@ -104,7 +104,7 @@
 
         <div class="col-md-6">
           <label for="cc-number" class="form-label">Credit card number</label>
-          <input type="text" class="form-control" formControlName="ccn" [(ngModel)]="payment.ccn"
+          <input type="text" class="form-control" formControlName="ccn" (ngModelChange)="validateForm()" [(ngModel)]="payment.ccn"
             [ngClass]="{ 'is-invalid': (controls['ccn'].dirty || controls['ccn'].touched || form.submitted) && controls['ccn'].invalid }"
             placeholder="16-digit number">
           <div *ngIf="orderForm.controls['ccn'].errors?.['required']" class="invalid-feedback">
@@ -120,7 +120,7 @@
 
         <div class="col-md-3">
           <label for="cc-expiration" class="form-label">Expiration</label>
-          <input type="text" class="form-control" formControlName="exp" [(ngModel)]="payment.exp" placeholder="mm/yy"
+          <input type="text" class="form-control" formControlName="exp" (ngModelChange)="validateForm()" [(ngModel)]="payment.exp" placeholder="mm/yy"
             [ngClass]="{ 'is-invalid': (controls['exp'].dirty || controls['exp'].touched || form.submitted) && controls['exp'].invalid }">
           <div *ngIf="orderForm.controls['exp'].errors?.['required']" class="invalid-feedback">
             Expiration is required.
@@ -135,7 +135,7 @@
 
         <div class="col-md-3">
           <label for="cc-cvv" class="form-label">CVV</label>
-          <input type="text" class="form-control" formControlName="ccv" [(ngModel)]="payment.ccv" placeholder="123"
+          <input type="text" class="form-control" formControlName="ccv" (ngModelChange)="validateForm()" [(ngModel)]="payment.ccv" placeholder="123"
             [ngClass]="{ 'is-invalid': (controls['ccv'].dirty || controls['exp'].touched || form.submitted) && controls['ccv'].invalid }">
           <div *ngIf="orderForm.controls['ccv'].errors?.['required']" class="invalid-feedback">
             CCV is required.
@@ -151,7 +151,10 @@
 
       <hr class="my-4">
 
-      <button class="w-100 btn btn-outline-dark btn-lg" type="submit">Submit</button>
+      <div class="alert alert-danger row g-12" *ngIf="validForm === false">
+        Please complete the form to continue the checkout process.
+      </div>
+      <button class="w-100 btn btn-outline-dark btn-lg" [disabled]="!validForm" type="submit">Submit</button>
     </form>
   </div>
 </div>

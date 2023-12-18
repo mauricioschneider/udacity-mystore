@@ -19,6 +19,8 @@ export class CartComponent {
   totalAmount: string = "0.00";
   cart: CartItem[] = [];
 
+  validForm: boolean = false;
+
   customer: Customer = {
     firstname: '',
     lastname: '',
@@ -75,5 +77,13 @@ export class CartComponent {
 
   get controls(): { [p: string]: AbstractControl } {
     return this.orderForm.controls;
+  }
+
+  validateForm(): void {
+    if (this.orderForm.valid) {
+      this.validForm = true;
+    } else {
+      this.validForm = false;
+    }
   }
 }
